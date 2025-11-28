@@ -1,5 +1,6 @@
 import { useState } from "react";
 import NoteList from "../NoteList/NoteList";
+import NoteForm from "../NoteForm/NoteForm";
 import Pagination from "../Pagination/Pagination";
 import SearchBox from "../SearchBox/SearchBox";
 import css from "./App.module.css";
@@ -32,7 +33,11 @@ export default function App() {
   return (
     <div className={css.app}>
       <header className={css.toolbar}>
-        <SearchBox searchValue={search} setSearchValue={setSearch} />
+        <SearchBox
+          searchValue={search}
+          setSearchValue={setSearch}
+          setCurrentPage={setCurrentPage}
+        />
         {totalPages > 1 && (
           <Pagination
             currentPage={currentPage}
@@ -43,7 +48,11 @@ export default function App() {
         <button className={css.button} onClick={() => handleCreateNote()}>
           Create note +
         </button>
-        {modalIsOpen && <Modal onClose={closeModal} />}
+        {modalIsOpen && (
+          <Modal onClose={closeModal}>
+            <NoteForm onClose={closeModal} />
+          </Modal>
+        )}
       </header>
       <NoteList notes={notes} />
     </div>

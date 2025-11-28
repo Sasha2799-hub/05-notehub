@@ -4,9 +4,9 @@ import type { FormikHelpers } from "formik";
 import { createNote } from "../../services/noteService";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import * as Yup from "yup";
-import type { ModalIsClosed, Note } from "../../types/note";
+import type { CreateNote } from "../../types/note";
 
-const initialValues: Note = { title: "", content: "", tag: "" };
+const initialValues: CreateNote = { title: "", content: "", tag: "" };
 
 const FormValuesShema = Yup.object().shape({
   title: Yup.string()
@@ -19,20 +19,28 @@ const FormValuesShema = Yup.object().shape({
     .required("Choose one option"),
 });
 
-export default function NoteForm({ onClose }: ModalIsClosed) {
+interface NoteFormPropse {
+  onClose: () => void;
+}
+
+export default function NoteForm({ onClose }: NoteFormPropse) {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
     mutationFn: createNote,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["notes"] });
-      onClose();
-    },
   });
-  const handleSubmit = (values: Note, actions: FormikHelpers<Note>) => {
-    mutation.mutate(values);
-    console.log(values);
-    actions.resetForm();
+
+  const handleSubmit = (
+    values: CreateNote,
+    actions: FormikHelpers<CreateNote>
+  ) => {
+    mutation.mutate(values, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["notes"] });
+        actions.resetForm();
+        onClose();
+      },
+    });
   };
 
   return (

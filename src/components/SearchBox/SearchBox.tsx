@@ -4,17 +4,21 @@ import { useDebouncedCallback } from "use-debounce";
 interface SearchBoxProps {
   searchValue: string;
   setSearchValue: (value: string) => void;
+  setCurrentPage: (value: number) => void;
 }
 
 export default function SearchBox({
   searchValue,
   setSearchValue,
+  setCurrentPage,
 }: SearchBoxProps) {
   const handleChange = useDebouncedCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const value = event.target.value;
-      setSearchValue(value), 2000;
-    }
+      setSearchValue(value);
+      setCurrentPage(1);
+    },
+    2000
   );
   return (
     <input

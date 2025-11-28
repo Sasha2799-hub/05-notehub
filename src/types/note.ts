@@ -1,17 +1,18 @@
 export interface Note {
-  id?: string;
+  id: string;
   title: string;
   content: string;
-  createdAt?: string;
-  updatedAt?: string;
+  createdAt: string;
+  updatedAt: string;
   tag: string;
 }
-
+export interface CreateNote {
+  title: string;
+  content: string;
+  tag: string;
+}
 export interface NotesResponse {
   notes: Note[];
   totalPages: number;
 }
 
-export interface ModalIsClosed {
-  onClose: () => void;
-}
