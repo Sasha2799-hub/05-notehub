@@ -6,6 +6,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import * as Yup from "yup";
 import type { CreateNote } from "../../types/note";
 
+
 const initialValues: CreateNote = { title: "", content: "", tag: "" };
 
 const FormValuesShema = Yup.object().shape({
@@ -19,11 +20,11 @@ const FormValuesShema = Yup.object().shape({
     .required("Choose one option"),
 });
 
-interface NoteFormPropse {
+interface NoteFormProps {
   onClose: () => void;
 }
 
-export default function NoteForm({ onClose }: NoteFormPropse) {
+export default function NoteForm({ onClose }: NoteFormProps) {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
